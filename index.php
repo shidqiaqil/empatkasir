@@ -74,7 +74,7 @@
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-app text-info text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Manage Inventory</span>
+            <span class="nav-link-text ms-1">Manage Ingredients</span>
           </a>
         </li>
 
@@ -137,6 +137,7 @@
               </div>
             </div>
             <div class="table-responsive">
+            <form action="addcart.php" method="POST">
               <table class="table align-items-center " id="t01">
               
               <tr class="text-center">
@@ -144,29 +145,69 @@
                           <th>No</th>
                           <th>Name</th>
                           <th>Price</th>
+                          <!-- <th>Quantity</th> -->
                           <th>Action</th>
                           <!-- <th>Quantity (in stock)</th> -->
                           <!-- <th>Buy</th> -->
                         </tr>
                         <?php
-                          
+                          $date = date('Y-m-d H:i:s');
                           $data = mysqli_query($con,"select * from product");
                           $no = 1;
                           
                           while($d = mysqli_fetch_array($data)){
                           ?>    
                               <tr class="text-center">
+                                 
+                                  <!-- <input name ="id_product" class="form-control text-center" id="id_product" Type="hidden" value="<?php echo $d['id_product']; ?>" /> -->
+                                  <input type="hidden" name="id_product" value="<?php echo $d['id_product']; ?>">
+                                  <input name ="temp_creation_time_stamp" class="form-control text-center" id="temp_creation_time_stamp" Type="hidden" value="<?php echo $date; ?>" />
                                   <td><?php echo $no++; ?></td>
-                                  <td><?php echo $d['menu_name']; ?></td>
-                                  <td><?php echo $d['menu_price']; ?></td>
+
+                                  <td>
+                                  
+                                    <input type="hidden" name="menu_name" value="<?php echo $d['menu_name']; ?>">
+                                    <?php echo $d['menu_name']; ?>
+                                  </td>
+                                  <td>
+                                    <input type="hidden" name="menu_price" value="<?php echo $d['menu_price']; ?>">
+                                    <?php echo $d['menu_price']; ?>
+                                  
+                                  </td>
+                                  <!-- <td>
+                                      <div class="mb-3">
+                              
+                                          
+                                                  <select name="quantity_buy" id="quantity_buy"class=" form-select" required>
+                                                     
+                                                      <?php 
+                                                          $sql3=mysqli_query($con,"SELECT * FROM quantity");
+                                                          while ($data3=mysqli_fetch_array($sql3)) {
+                                                          ?>
+                                                          <option value="<?=$data3['num_quantity']?>"><?=$data3['num_quantity']?></option> 
+                                                          <?php
+                                                      }
+                                                      ?>
+                                                  </select>
+                                      </div>
+                                  </td> -->
                                   <td style="text-align: center;">
-                                      <a  href="addcart.php?id=<?php echo $d['id']; ?>"><span class="fas fa-plus-square link-success"></span></a>
+                                  
+                                  <?php
+                                  
+                                    echo "
+                                        <a class=''  value='' href='addcart.php?id_product=".$d['id_product']."&menu_name=".$d['menu_name']."&menu_price=".$d['menu_price']."'><span class='far fa-plus-square link-success'></a>
+                                        "; ?>
+                                      <!-- <div class="d-grid">
+                                          <button class="btn btn-warning btn-sm " id="submitButton" type="submit" name="create">Submit</button>
+                                      </div> -->
                                   </td>
                               </tr>
                               <?php
                           }
                           ?>
               </table>
+              </form>
             </div>
           </div>
         </div>
@@ -177,7 +218,54 @@
             </div>
             <div class="card-body p-3">
               <ul class="list-group">
-              
+              <div class="table-responsive">
+                <table class="table align-items-center " id="t01">
+                
+                      <tr class="text-center">
+                          
+                        <th>No</th>
+                        <th>Menu Name</th>
+                        <th style="width: 10%;">Quantity</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                        
+                        <!-- <th>Quantity (in stock)</th> -->
+                        <!-- <th>Buy</th> -->
+                      </tr>
+                      <?php
+                        
+                        $data3 = mysqli_query($con,"select temp_transaction.*, product.menu_name from temp_transaction left join product on temp_transaction.id_product=product.id_product");
+                        $no3 = 1;
+                        
+                        while($d3 = mysqli_fetch_array($data3)){
+                        ?>    
+                            <tr class="text-center">
+                                <td><?php echo $no3++; ?></td>
+                                <td><?php echo $d3['menu_name']; ?></td>
+                                <td>
+                                  <input type="number" class="form-control text-center" value="<?php echo $d3['quantity_buy']; ?>">
+                                </td>
+                                <td><?php echo $d3['menu_price']; ?></td>
+                                <td style="text-align: center;">
+                                    <a onclick="return confirm('Apakah yakin data akan di hapus?')" href="hapuscart.php?id_temp_transaction=<?php echo $d3['id_temp_transaction']; ?>"><span class="far fa-trash-alt link-danger"></span></a>
+                                </td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+                        <tfoot class="text-center">
+                            <tr>
+                                <th></th>
+                               
+                                
+                                <th scope="row">Total</th>
+                                <!-- <td>Web-Development Bundle</td> -->
+                                
+                                <td></td>
+                                <td>$54</td>
+                            </tr>
+                </table>
+              </div>       
               </ul>
             </div>
           </div>

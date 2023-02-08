@@ -74,7 +74,7 @@
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-app text-info text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Manage Inventory</span>
+            <span class="nav-link-text ms-1">Manage Ingredients</span>
           </a>
         </li>
 
@@ -182,7 +182,7 @@
                                   <td><?php echo $d['menu_name']; ?></td>
                                   <td><?php echo $d['menu_price']; ?></td>
                                   <td style="text-align: center;">
-                                      <a  href="addcart.php?id=<?php echo $d['id']; ?>"><span class=" link-primary">Details</span></a>
+                                      <a  href="detailsingredient.php?id_product=<?php echo $d['id_product']; ?>"><span class=" link-primary">Details</span></a>
                                   </td>
                               </tr>
                               <?php
@@ -192,42 +192,51 @@
               </div>
             </div>
         </div>
+        <?php 
+              $data0 = mysqli_query($con,"select * from ingredients");
+              $d0 =   mysqli_fetch_array($data0)          
+            ?>
         <div class="col-lg-5 mb-lg-0 mb-4">
           <div class="card ">
             <div class="card-header pb-0 p-3">
               <div class="d-flex justify-content-between">
-                <h6 class="mb-2">Input Inventory</h6>
+                <h6 class="mb-2">List Ingredients</h6>
               </div>
             </div>
+            
+           
             <div class="table-responsive">
-              <table class="table align-items-center " id="t01">
-              
-              <div class="container px-3 my-3">
-                <form id="contactForm" action="" method="post">
-                    <div class="mb-3">
-                        <label class="form-label" for="menuName">Inventory Name</label>
-                        <input name ="inven_name"class="form-control" id="inventoryName" type="text" placeholder="Inventory Name"/>
-                        
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="price">Quantity</label>
-                        <input name ="inven_quantity" class="form-control" id="price" type="text" placeholder="Quantity" />
-                        
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="price">Unit</label>
-                        <input name ="inven_unit" class="form-control" id="price" type="text" placeholder="Unit" />
-                        
-                    </div>
+            <table class="table align-items-center " id="t01">
+                
+                <tr class="text-center">
                     
+                  <th>No</th>
+                  <th>Ingredient</th>
+                  <th>Quantity</th>
+                  <th>Unit</th>
+                  <!-- <th>Quantity (in stock)</th> -->
+                  <!-- <th>Buy</th> -->
+                </tr>
+                <!-- <?php
                   
-                    <div class="d-grid">
-                        <button class="btn btn-warning btn-lg " id="submitButton" type="submit" name="create">Submit</button>
-                    </div>
-                </form>
-              </div>
-                    
-              </table>
+                  $data1 = mysqli_query($con,"select * from ingredients");
+                  $no1 = 1;
+                  
+                  while($d1 = mysqli_fetch_array($data1)){
+                  ?>    
+                      <tr class="text-center">
+                          <td><?php echo $no1++; ?></td>
+                          <td><?php echo $d1['ingredient_name']; ?></td>
+                          <td><?php echo $d1['ingredient_quantity']; ?></td>
+                          <td><?php echo $d1['ingredient_unit']; ?></td>
+                          <td style="text-align: center;">
+                              <a onclick="return confirm('Apakah yakin data akan di hapus?')" href="hapusmenu.php?id=<?php echo $d['id']; ?>"><span class="far fa-trash-alt link-danger"></span></a>
+                          </td>
+                      </tr>
+                      <?php
+                  }
+                  ?> -->
+          </table>
             </div>
           </div>
         </div>

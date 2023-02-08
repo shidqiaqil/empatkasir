@@ -74,7 +74,7 @@
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-app text-info text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Manage Inventory</span>
+            <span class="nav-link-text ms-1">Manage Ingredients</span>
           </a>
         </li>
 
@@ -197,7 +197,7 @@
           <div class="card ">
               <div class="card-header pb-0 p-3">
                 <div class="d-flex justify-content-between">
-                  <h6 class="mb-2 text-bold">List Inventory</h6>
+                  <h6 class="mb-2 text-bold">List Inventory Stock</h6>
                 </div>
               </div>
               <div class="table-responsive">
