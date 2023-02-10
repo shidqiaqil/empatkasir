@@ -77,6 +77,14 @@
             <span class="nav-link-text ms-1">Manage Ingredients</span>
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link " href="historytransaction.php">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fas fa-list text-secondary text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">History Transaction</span>
+          </a>
+        </li>
 
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
@@ -212,6 +220,7 @@
           </div>
         </div>
         <div class="col-lg-7">
+          <form action="">
           <div class="card">
             <div class="card-header pb-0 p-3">
               <h6 class="mb-0">List Pembelian</h6>
@@ -235,25 +244,55 @@
                       <?php
                         
                         $data3 = mysqli_query($con,"select temp_transaction.*, product.menu_name from temp_transaction left join product on temp_transaction.id_product=product.id_product");
+                        $cek_data = mysqli_query($con, "select count(*) jumlah from temp_transaction");
+                        $hasil_data = mysqli_fetch_assoc($cek_data);
+
                         $no3 = 1;
                         
+                        if($hasil_data['jumlah'] == 0){
+                          echo '<tr> <td colspan="99" class="text-center">Data Not Found</td> </tr>';
+                        }else{
                         while($d3 = mysqli_fetch_array($data3)){
                         ?>    
                             <tr class="text-center">
                                 <td><?php echo $no3++; ?></td>
                                 <td><?php echo $d3['menu_name']; ?></td>
                                 <td>
-                                  <input type="number" class="form-control text-center" value="<?php echo $d3['quantity_buy']; ?>">
+                                  <div class="mb-3 e">     
+                                  <select onChange="window.document.location.href=this.options[this.selectedIndex].value;" class="form-control" name="jumlah_item">
+                                    <option value="updatecart.php?id_temp_transaction=<?php echo $d3['id_temp_transaction'] ?>&quantity_buy=1" <?php ($d3['quantity_buy']==1) ? $sl = 'selected' : $sl =''; echo $sl ?>>1</option>
+                                    <option value="updatecart.php?id_temp_transaction=<?php echo $d3['id_temp_transaction'] ?>&quantity_buy=2" <?php ($d3['quantity_buy']==2) ? $sl = 'selected' : $sl =''; echo $sl ?>>2</option>
+                                    <option value="updatecart.php?id_temp_transaction=<?php echo $d3['id_temp_transaction'] ?>&quantity_buy=3" <?php ($d3['quantity_buy']==3) ? $sl = 'selected' : $sl =''; echo $sl ?>>3</option>
+                                    <option value="updatecart.php?id_temp_transaction=<?php echo $d3['id_temp_transaction'] ?>&quantity_buy=4" <?php ($d3['quantity_buy']==4) ? $sl = 'selected' : $sl =''; echo $sl ?>>4</option>
+                                    <option value="updatecart.php?id_temp_transaction=<?php echo $d3['id_temp_transaction'] ?>&quantity_buy=5" <?php ($d3['quantity_buy']==5) ? $sl = 'selected' : $sl =''; echo $sl ?>>5</option>
+                                    <option value="updatecart.php?id_temp_transaction=<?php echo $d3['id_temp_transaction'] ?>&quantity_buy=6" <?php ($d3['quantity_buy']==6) ? $sl = 'selected' : $sl =''; echo $sl ?>>6</option>
+                                    <option value="updatecart.php?id_temp_transaction=<?php echo $d3['id_temp_transaction'] ?>&quantity_buy=7" <?php ($d3['quantity_buy']==7) ? $sl = 'selected' : $sl =''; echo $sl ?>>7</option>
+                                    <option value="updatecart.php?id_temp_transaction=<?php echo $d3['id_temp_transaction'] ?>&quantity_buy=8" <?php ($d3['quantity_buy']==8) ? $sl = 'selected' : $sl =''; echo $sl ?>>8</option>
+                                    <option value="updatecart.php?id_temp_transaction=<?php echo $d3['id_temp_transaction'] ?>&quantity_buy=9" <?php ($d3['quantity_buy']==9) ? $sl = 'selected' : $sl =''; echo $sl ?>>9</option>
+                                    <option value="updatecart.php?id_temp_transaction=<?php echo $d3['id_temp_transaction'] ?>&quantity_buy=10" <?php ($d3['quantity_buy']==10) ? $sl = 'selected' : $sl =''; echo $sl ?>>10</option>
+                                  </select>
+                                  </div>
                                 </td>
-                                <td><?php echo $d3['menu_price']; ?></td>
+                                <td>Rp<?php echo $d3['menu_price']; ?></td>
                                 <td style="text-align: center;">
-                                    <a onclick="return confirm('Apakah yakin data akan di hapus?')" href="hapuscart.php?id_temp_transaction=<?php echo $d3['id_temp_transaction']; ?>"><span class="far fa-trash-alt link-danger"></span></a>
-                                </td>
+                                  <!-- <?php  echo "
+                                        <a  value='' href='updatecart.php?id_temp_transaction=".$d3['id_temp_transaction']."&quantity_buy=".$_POST['quantity_buy']."'><span class='fas fa-sync-alt link-success'></a>
+                                        "; ?> -->
+                                    <!-- <a href="updatecart.php?id_temp_transaction=<?php echo $d3['id_temp_transaction']; ?>"><span class="fas fa-sync-alt link-success "></span></a> -->
+                                    <a onclick="return confirm('Apakah yakin data akan di hapus?')" href="hapuscart.php?id_temp_transaction=<?php echo $d3['id_temp_transaction']; ?>"><span class="far fa-trash-alt link-danger ms-1"></span></a>
+                                    
+                                  </td>
                             </tr>
                             <?php
                         }
+                        }
                         ?>
                         <tfoot class="text-center">
+                          <?php 
+                             $data7 = mysqli_query($con,"select sum(menu_price) as total from temp_transaction");
+                             $total = mysqli_fetch_array($data7);
+                             
+                          ?>
                             <tr>
                                 <th></th>
                                
@@ -262,7 +301,8 @@
                                 <!-- <td>Web-Development Bundle</td> -->
                                 
                                 <td></td>
-                                <td>$54</td>
+                                <td><b>Rp<?php echo $total['total'] ?></b></td>
+                                <td><a href="checkout.php">Checkout</a></td>
                             </tr>
                 </table>
               </div>       
@@ -460,6 +500,20 @@
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
   </script>
+
+<script>
+     jQuery(function($) {
+         $('select').on('change', function() {
+           var url = $(this).val();
+           if (url) {
+             window.location = url;
+           }
+           return false;
+         });
+         });
+     </script>
+
+     
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->

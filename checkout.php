@@ -1,19 +1,18 @@
-<?php 
-session_start();
-require 'connect.php';
-require 'item.php';
+<?php
+include('connect.php');
+$date = date('Y-m-d H:i:s');
 
-// Save new orders
-$sql1 = 'INSERT INTO orders (name, datecreation, status, username) VALUES ("New Order","'.date('Y-m-d').'",0,"acc2")';
-mysqli_query($con, $sql1);
-$ordersid = mysqli_insert_id($con); 
-// Save order details for new orders
-$cart = unserialize(serialize($_SESSION['cart']));
-for($i=0; $i<count($cart);$i++) {
-$sql2 = 'INSERT INTO odersdetail (productid, ordersid, price, quantity) VALUES ('.$cart[$i]->id.', '.$ordersid.', '.$cart[$i]->price.', '.$cart[$i]->quantity.')';
-mysqli_query($con, $sql2);
-}
-// Clear all product in cart
-unset($_SESSION['cart']);
- ?>
- Thanks for buying products. Click <a href="index.php">here</a> to continue purchasing products.
+// $id_temp_transaction =  $_GET['id_temp_transaction'];
+// $quantity_buy =  $_GET['quantity_buy'];
+
+// $menu_price =  $_GET['menu_price'];
+// $temp_creation_time_stamp =  $date;
+$sql = mysqli_query($con, "INSERT INTO list_transaction (`id_temp_transaction`, `id_product`, `quantity_buy`, `menu_price`, `temp_creation_time_stamp`)
+SELECT * FROM temp_transaction");
+
+$sql1 = mysqli_query($con, "DELETE FROM `temp_transaction`");
+
+echo "<script>alert('Pesanan Berhasil Checkout'); window.location.href='index.php'</script>";
+
+
+?>
