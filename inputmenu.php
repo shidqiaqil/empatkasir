@@ -132,8 +132,8 @@
                 if($_POST){
                     try {
                         $sql = "INSERT INTO product 
-                        (menu_name,menu_price) 
-                        VALUES ('".$_POST['menu_name']."','".$_POST['menu_price']."')";
+                        (id_product,menu_name,menu_price) 
+                        VALUES ('".$_POST['id_product']."','".$_POST['menu_name']."','".$_POST['menu_price']."')";
                         if(!$con->query($sql)){
                             echo $con->error;
                             die();
@@ -166,6 +166,11 @@
               
               <div class="container px-3 my-3">
                 <form id="contactForm" action="" method="post">
+                    <div class="mb-3">
+                            <label class="form-label" for="menuName">Id Menu </label>
+                            <input name ="id_product"class="form-control" id="idmenu" type="text" placeholder="Id Menu"/>
+                            <div class="invalid-feedback" data-sb-feedback="idmenu:required">Id Menu.</div>
+                    </div>
                     <div class="mb-3">
                         <label class="form-label" for="menuName">Menu Name</label>
                         <input name ="menu_name"class="form-control" id="menuName" type="text" placeholder="Menu Name"/>
@@ -215,7 +220,7 @@
                 
                       <tr class="text-center">
                           
-                        <th>No</th>
+                        <th>Id</th>
                         <th>Name</th>
                         <th>Price</th>
                         <th>Action</th>
@@ -230,9 +235,9 @@
                         while($d = mysqli_fetch_array($data)){
                         ?>    
                             <tr class="text-center">
-                                <td><?php echo $no++; ?></td>
+                                <td><?php echo $d['id_product']; ?></td>
                                 <td><?php echo $d['menu_name']; ?></td>
-                                <td><?php echo $d['menu_price']; ?></td>
+                                <td>Rp<?php echo $d['menu_price']; ?></td>
                                 <td style="text-align: center;">
                                     <a onclick="return confirm('Apakah yakin data akan di hapus?')" href="hapusmenu.php?id=<?php echo $d['id']; ?>"><span class="far fa-trash-alt link-danger"></span></a>
                                 </td>

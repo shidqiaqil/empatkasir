@@ -62,7 +62,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="inputinventory.php">
+          <a class="nav-link " href="inputinventory.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
             </div>
@@ -78,13 +78,14 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="historytransaction.php">
+          <a class="nav-link active" href="historytransaction.php">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fas fa-list text-secondary text-sm opacity-10"></i>
             </div>
             <span class="nav-link-text ms-1">History Transaction</span>
           </a>
         </li>
+
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
         </li>
@@ -108,10 +109,10 @@
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Transaksi</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Manage</a></li>
             <!-- <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li> -->
           </ol>
-          <h6 class="font-weight-bolder text-white mb-0">Pembelian</h6>
+          <h6 class="font-weight-bolder text-white mb-0">Inventory</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -124,137 +125,126 @@
         </div>
       </div>
     </nav>
-    <!-- End Navbar -->
-    
-
-    <?php
-                // require_once('koneksi.php');
-                if($_POST){
-                    try {
-                        $sql = "INSERT INTO inventory 
-                        (id_inven,inven_name,inven_quantity,inven_unit) 
-                        VALUES ('".$_POST['id_inven']."','".$_POST['inven_name']."','".$_POST['inven_quantity']."','".$_POST['inven_unit']."')";
-                        if(!$con->query($sql)){
-                            echo $con->error;
-                            die();
-                        }
-
-                    } catch (Exception $e) {
-                        echo $e;
-                        die();
-                    }
-                    echo "<script>
-                    alert('Data berhasil di simpan');
-                    window.location.href='inputinventory.php';
-                    </script>";
-                }
-                ?>    
+    <!-- End Navbar -->   
 
     <div class="container-fluid py-2">
       
-      
+      <form action="historytransactionfilter.php" method="post">
       <div class="row mt-4">
-        <div class="col-lg-7 mb-lg-0 mb-4">
-          <div class="card ">
-            <div class="card-header pb-0 p-3">
-              <div class="d-flex justify-content-between">
-                <h6 class="mb-2">Input Inventory</h6>
-              </div>
-            </div>
-            <div class="table-responsive">
-              <table class="table align-items-center " id="t01">
-              
-              <div class="container px-3 my-3">
-                <form id="contactForm" action="" method="post">
-                    <div class="mb-3">
-                        <label class="form-label" for="menuName">Id Inventory</label>
-                        <input name ="id_inven"class="form-control" id="id_inven" type="text" placeholder="Id Inventory"/>
-                        
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="menuName">Inventory Name</label>
-                        <input name ="inven_name"class="form-control" id="inventoryName" type="text" placeholder="Inventory Name"/>
-                        
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="price">Quantity</label>
-                        <input name ="inven_quantity" class="form-control" id="price" type="text" placeholder="Quantity" />
-                        
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="price">Unit</label>
-                        <input name ="inven_unit" class="form-control" id="price" type="text" placeholder="Unit" />
-                        
-                    </div>
-                    
-                  
-                    <div class="d-grid">
-                        <button class="btn btn-warning btn-lg " id="submitButton" type="submit" name="create">Submit</button>
-                    </div>
-                </form>
-              </div>
-                    
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <?php 
-        
-        $sql1 = 'SELECT * FROM product';
-        $result = mysqli_query($con, $sql1);
-        ?>
-
-        <div class="col-lg-5">
+        <div class="col-lg-12">
           <div class="card ">
               <div class="card-header pb-0 p-3">
-                <div class="d-flex justify-content-between">
-                  <h6 class="mb-2 text-bold">List Inventory Stock</h6>
+                <div class="row">
+                  <div class="col-6 d-flex justify-content-between">
+                    <h6 class="mb-2 text-bold">List History Transaction</h6>
+                  </div>
+                  
+                  <div class="col-6 d-flex justify-content-between">
+                    
+                    <div class="col-4">
+                      <div class="input-group input-daterange">
+                          <input type="datetime-local" class="form-control" name="start_date" >
+                      </div>
+                    </div>
+                    <div class="col-sm-1 text-lg-center">
+                      <p class="mt-2">to</p>
+                    </div>
+                    
+                    <div class="col-4">
+                      <div class="input-group input-daterange">
+                          <input type="datetime-local" class="form-control" name="end_date" >
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <button type="submit" class="btn btn-success ">Search</button>
+                    </div>
+                  </div>
                 </div>
+</form>    
               </div>
-              <div class="table-responsive">
-                <table class="table align-items-center " id="t01">
-                
-                      <tr class="text-center">
-                          
-                        <!-- <th>No</th> -->
-                        <th>No</th>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Quantity</th>
-                        <th>Unit</th>
-                        <th>Action</th>
-                      </tr>
-                      <?php
+              <div class="card-body p-3">
+              <ul class="list-group">
+              <div class="table-responsive text-center">
+              <table id="example" class="table align-items-center">                    
+                    <thead> 
+                    <tr class="success">
+                            <th width="50px">No</th>
+                            <th>Id Product</th>
+                            <th>Name Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Checkout Date</th>
+                            
+                        </tr>
+                    </thead>
+                        <?php
                         
-                        $data = mysqli_query($con,"select * from inventory");
+                        if ((isset($start_date)) && (isset($end_date))) {
+                          $start_date=$_POST['start_date'];
+                          $end_date=$_POST['end_date'];
+                          $data6 = mysqli_query($con,"select list_transaction.*, product.menu_name from list_transaction left join product on list_transaction.id_product=product.id_product 
+                          where checkout_date between '$start_date' and '$end_date' order by checkout_date desc");
+                        } else {
+                          $data6 = mysqli_query($con,"select list_transaction.*, product.menu_name from list_transaction left join product on list_transaction.id_product=product.id_product 
+                          order by checkout_date desc");
+                        }
+                        
                         $no = 1;
                         
-                        while($d = mysqli_fetch_array($data)){
+                        while($d = mysqli_fetch_array($data6)){
                         ?>    
-                            <tr class="text-center">
-                                <td><?php echo $no++; ?> </td>
-                                <td><?php echo $d['id_inven']; ?></td>
-                                <td><?php echo $d['inven_name']; ?></td>
-                                <td><?php echo $d['inven_quantity']; ?></td>
-                                <td><?php echo $d['inven_unit']; ?></td>
-                                <td style="text-align: center;">
-                                    <a onclick="return confirm('Apakah yakin data akan di hapus?')" href="hapusinventory.php?id=<?php echo $d['id']; ?>"><span class="far fa-trash-alt link-danger"></span></a>
-                                </td>
+                            <tr>
+                                <td><?php echo $no++; ?></td>
+                                <td><?php echo $d['id_product']; ?></td>
+                                <td><?php echo $d['menu_name']; ?></td>
+                                <td><?php echo $d['quantity_buy']; ?></td>                             
+                                <td>Rp<?php echo $d['menu_price']; ?></td>
+                                <td><?php $orgDate = $d['checkout_date']; 
+                                          $newDate = date("d/m/Y H:i:s", strtotime($orgDate));echo $newDate;   ?> </td>
                             </tr>
                             <?php
                         }
                         ?>
-                </table>
+                        <tfoot class="text-center">
+                          <?php 
+                            if ((isset($start_date)) && (isset($end_date))) {
+                              $start_date=$_POST['start_date'];
+                              $end_date=$_POST['end_date'];
+                              $data7 = mysqli_query($con,"select sum(menu_price) as total, sum(quantity_buy) as quantity_buy from list_transaction where checkout_date between '$start_date' and '$end_date'");
+                              $total = mysqli_fetch_array($data7);
+                            } else {
+                              $data7 = mysqli_query($con,"select sum(menu_price) as total, sum(quantity_buy) as quantity_buy from list_transaction ");
+                              $total = mysqli_fetch_array($data7);
+                            }
+                            
+                             
+                          ?>
+                            <tr>
+                                <th></th>
+                               
+                                
+                                <th scope="row">Total</th>
+                                <!-- <td>Web-Development Bundle</td> -->
+                                <td></td>
+                                <td><b><?php echo $total['quantity_buy'] ?></b></td>
+                                <td><b>Rp<?php echo $total['total'] ?></b></td>
+                                <td><a href="excel_listtransactionall.php" class="btn btn-warning px-5  mt-3">Export Data</a></td>
+                                <!-- <td><a href="checkout.php">Checkout</a></td> -->
+                            </tr>
+                        </tfoot>
+                    </table>
               </div>
+                      </ul>
             </div>
         </div>
       </div>
+
+
       <footer class="footer pt-3  ">
         <div class="container-fluid">
           <div class="row  justify-content-lg-between">
 
-            <div class="col-lg-8">
+            <div class="col-lg-12">
               <div class="copyright text-right text-sm text-muted text-lg-start">
                 © <script>
                   document.write(new Date().getFullYear())

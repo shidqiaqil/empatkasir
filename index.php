@@ -178,8 +178,7 @@
                                     <?php echo $d['menu_name']; ?>
                                   </td>
                                   <td>
-                                    <input type="hidden" name="menu_price" value="<?php echo $d['menu_price']; ?>">
-                                    <?php echo $d['menu_price']; ?>
+                                    <input type="hidden" name="menu_price" value="<?php echo $d['menu_price']; ?>">Rp<?php echo $d['menu_price']; ?>
                                   
                                   </td>
                                   <!-- <td>
@@ -302,8 +301,9 @@
                                 
                                 <td></td>
                                 <td><b>Rp<?php echo $total['total'] ?></b></td>
-                                <td><a href="checkout.php">Checkout</a></td>
+                                <td><a href="checkout.php" class="btn btn-outline-secondary btn-sm px-2 mt-3">Checkout</a></td>
                             </tr>
+                      </tfoot>
                 </table>
               </div>       
               </ul>
