@@ -129,128 +129,70 @@
 
     <?php
                 // require_once('koneksi.php');
-                if($_POST){
-                    try {
-                        $sql = "INSERT INTO inventory 
-                        (id_inven,inven_name,inven_quantity,inven_unit) 
-                        VALUES ('".$_POST['id_inven']."','".$_POST['inven_name']."','".$_POST['inven_quantity']."','".$_POST['inven_unit']."')";
-                        if(!$con->query($sql)){
-                            echo $con->error;
-                            die();
-                        }
-
-                    } catch (Exception $e) {
-                        echo $e;
-                        die();
-                    }
-                    echo "<script>
-                    alert('Data berhasil di simpan');
-                    window.location.href='inputinventory.php';
-                    </script>";
-                }
+               
+                // require_once('koneksi.php');
+                    $id = $_GET['id'];
+                    $data = mysqli_query($con,"select * from inventory where id='$id'");
+                    while($d = mysqli_fetch_array($data)){
+                
+                
                 ?>    
 
-    <div class="container-fluid py-2">
+    <div class="container-fluid py-4">
       
       
       <div class="row mt-4">
-        <div class="col-lg-7 mb-lg-0 mb-4">
+        <div class="col-lg-12 mb-lg-0 mb-4">
           <div class="card ">
             <div class="card-header pb-0 p-3">
               <div class="d-flex justify-content-between">
-                <h6 class="mb-2">Input Inventory</h6>
+                <h6 class="mb-2">Update Inventory</h6>
               </div>
             </div>
             <div class="table-responsive">
               <table class="table align-items-center " id="t01">
               
               <div class="container px-3 my-3">
-                <form id="contactForm" action="" method="post">
+                <form id="contactForm" action="updatepostinventory.php" method="POST">
                     <div class="mb-3">
                         <label class="form-label" for="menuName">Id Inventory</label>
-                        <input name ="id_inven"class="form-control" id="id_inven" type="text" placeholder="Id Inventory"/>
-                        
+                        <!-- <input name ="id_inven"class="form-control" id="id_inven" type="text" placeholder="Id Inventory"/> -->
+                        <input type="hidden" name="id" value="<?php echo $d['id']; ?>" class="form-control">
+                        <input type="text" value="<?php echo $d['id_inven']; ?>" class="form-control" name="id_inven" readonly>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="menuName">Inventory Name</label>
-                        <input name ="inven_name"class="form-control" id="inventoryName" type="text" placeholder="Inventory Name"/>
-                        
+                        <!-- <input name ="inven_name"class="form-control" id="inventoryName" type="text" placeholder="Inventory Name"/> -->
+                        <input type="text" value="<?php echo $d['inven_name']; ?>" class="form-control" name="inven_name" readonly>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="price">Quantity</label>
-                        <input name ="inven_quantity" class="form-control" id="price" type="text" placeholder="Quantity" />
+                        <input name ="inven_quantity" value="<?php echo $d['inven_quantity']; ?>"  class="form-control" id="inven_quantity" type="text" placeholder="Quantity" />
                         
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="price">Unit</label>
-                        <input name ="inven_unit" class="form-control" id="price" type="text" placeholder="Unit" />
+                        <input name ="inven_unit" value="<?php echo $d['inven_unit']; ?>" class="form-control" id="price" type="text" placeholder="Unit" />
                         
                     </div>
                     
                   
                     <div class="d-grid">
-                        <button class="btn btn-warning btn-lg " id="submitButton" type="submit" name="create">Submit</button>
+                        <button class="btn btn-warning btn-lg " id="submitButton" type="submit" name="create" value="UPDATE">Update</button>
                     </div>
                 </form>
+                <?php 
+                         }
+                        ?>
               </div>
-                    
+            
               </table>
             </div>
           </div>
+          
         </div>
 
-        <?php 
-        
-        $sql1 = 'SELECT * FROM product';
-        $result = mysqli_query($con, $sql1);
-        ?>
 
-        <div class="col-lg-5">
-          <div class="card ">
-              <div class="card-header pb-0 p-3">
-                <div class="d-flex justify-content-between">
-                  <h6 class="mb-2 text-bold">List Inventory Stock</h6>
-                </div>
-              </div>
-              <div class="table-responsive">
-                <table class="table align-items-center " id="t01">
-                
-                      <tr class="text-center">
-                          
-                        <!-- <th>No</th> -->
-                        <th>No</th>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Quantity</th>
-                        <th>Unit</th>
-                        <th>Action</th>
-                      </tr>
-                      <?php
-                        
-                        $data = mysqli_query($con,"select * from inventory");
-                        $no = 1;
-                        
-                        while($d = mysqli_fetch_array($data)){
-                        ?>    
-                            <tr class="text-center">
-                                <td><?php echo $no++; ?> </td>
-                                <td><?php echo $d['id_inven']; ?></td>
-                                <td><?php echo $d['inven_name']; ?></td>
-                                <td><?php echo $d['inven_quantity']; ?></td>
-                                <td><?php echo $d['inven_unit']; ?></td>
-                                <td style="text-align: center;">
-                                    <a onclick="return confirm('Apakah yakin data akan di hapus?')" href="hapusinventory.php?id=<?php echo $d['id']; ?>"><span class="far fa-trash-alt link-danger  m-1" ></span></a>
-                                    <a href="updateinventory.php?id= <?php echo $d['id']; ?>" > <span class="fas fa-pen link-success"></span></a>
-                                  </td>
-                               
-                            </tr>
-                            <?php
-                        }
-                        ?>
-                </table>
-              </div>
-            </div>
-        </div>
       </div>
       <footer class="footer pt-3  ">
         <div class="container-fluid">
